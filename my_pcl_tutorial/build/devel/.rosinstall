@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/kaai/lidar_study/src/my_pcl_tutorial/build/devel/setup.sh

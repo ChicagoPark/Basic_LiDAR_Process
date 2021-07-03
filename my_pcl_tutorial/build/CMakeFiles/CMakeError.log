@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_59434/fast"
+/usr/bin/make -f CMakeFiles/cmTC_59434.dir/build.make CMakeFiles/cmTC_59434.dir/build
+make[1]: 디렉터리 '/home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp' 들어감
+Building C object CMakeFiles/cmTC_59434.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_59434.dir/CheckSymbolExists.c.o   -c /home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_59434
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_59434.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_59434.dir/CheckSymbolExists.c.o  -o cmTC_59434 
+CMakeFiles/cmTC_59434.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_59434.dir/build.make:97: recipe for target 'cmTC_59434' failed
+make[1]: *** [cmTC_59434] Error 1
+make[1]: 디렉터리 '/home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp' 나감
+Makefile:126: recipe for target 'cmTC_59434/fast' failed
+make: *** [cmTC_59434/fast] Error 2
+
+File /home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2e22b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2e22b.dir/build.make CMakeFiles/cmTC_2e22b.dir/build
+make[1]: 디렉터리 '/home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp' 들어감
+Building C object CMakeFiles/cmTC_2e22b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_2e22b.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_2e22b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2e22b.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_2e22b.dir/CheckFunctionExists.c.o  -o cmTC_2e22b -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_2e22b.dir/build.make:97: recipe for target 'cmTC_2e22b' failed
+make[1]: *** [cmTC_2e22b] Error 1
+make[1]: 디렉터리 '/home/kaai/lidar_study/src/my_pcl_tutorial/build/CMakeFiles/CMakeTmp' 나감
+Makefile:126: recipe for target 'cmTC_2e22b/fast' failed
+make: *** [cmTC_2e22b/fast] Error 2
+
+

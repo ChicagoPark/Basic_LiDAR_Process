@@ -1,0 +1,8 @@
+prefix=/home/kaai/lidar_study/src/my_pcl_tutorial/build/devel
+
+Name: my_pcl_tutorial
+Description: Description of my_pcl_tutorial
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

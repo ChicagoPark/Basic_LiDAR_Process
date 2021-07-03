@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+    <include file="$(find livox_ros_driver)/launch/livox_lidar_rviz.launch"></include>
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points_multi.launch"></include>
+    <node pkg="my_pcl_tutorial" type="merging_ALL" name="merging_ALL" output="screen"></node>
+    <node pkg="my_pcl_tutorial" type="filtering" name="filtering" output="screen"></node>
+    <node pkg="my_pcl_tutorial" type="segmentation" name="segmentation" output="screen"></node>
+    <node pkg="my_pcl_tutorial" type="my_boundingbox" name="boundingbox" output="screen"></node>
+
+</launch>
