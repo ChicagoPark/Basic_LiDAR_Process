@@ -168,8 +168,6 @@ int main (int argc, char** argv)
   ros::NodeHandle nh;
 
   // Create a ROS subscriber for the input point cloud
-
-
   ros::Subscriber sub1 = nh.subscribe ("/livox/lidar_1HDDH3200106141", 1, livox_translation_cb);
   ros::Subscriber sub2 = nh.subscribe ("/livox/lidar_1HDDH1200104181", 1, livox_merge_cb);
   ros::Subscriber sub3 = nh.subscribe ("/ns1/velodyne_points", 1, cloud_cb3);
