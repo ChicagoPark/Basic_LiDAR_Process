@@ -23,7 +23,7 @@
 
 #include "youngil.h"
 
-//바운딩 박스를 만들어주기위한 구조체 추가
+// struct for 3D bounding box
 
 struct Box
 {
@@ -37,29 +37,24 @@ struct Box
 
 typedef pcl::PointXYZ PointT;
 
-//clusters 를 다른 색으로 담고있는 clusters를 퍼블리싱하기 위한 pub1
+// Define Publisher
 ros::Publisher pub1;
-//bounding box를 visualization 하기위한 퍼블리셔
 ros::Publisher pub2;
-//This publisher is for multi ransac. 
 ros::Publisher pub_ransac;
 
 void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& inputcloud)
 {
-  //ROS message 변환
-  //왜 PointXYZ로 선언을 해줄까? => 이후 clusters 에 대해 다른 색으로 표현해주기 위해서,clustering 이후 intensity value를 정해주기 위해서이다.
+  //Convert ROSMsg(Sensor msg) to PointXYZ
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
   pcl::fromROSMsg(*inputcloud, *cloud);
 
-  //visualizing에 필요한 marker 선언
   visualization_msgs::MarkerArray marker_array;
   visualization_msgs::Marker marker;
 
-  //Clustering 을 위한 KD-tree를 선언해준다.
+  //Declare a KD-tree for clustering.
   pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
   tree->setInputCloud(cloud);
 
-  //각각의 clusters를 받아줄 vector를 만들어준다.
   std::vector<pcl::PointIndices> cluster_indices;
   pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
   ec.setClusterTolerance (0.15); // 2cm
@@ -76,16 +71,15 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& inputcloud)
 
   pcl::PointCloud<pcl::PointXYZI> TotalCloud;
   int j = 0;
-  //각 cluster들을 각각 고려하여 intensity를 표시해주기위한 작업
-  //아래 for문은 각각의 cluster에 대해 접근해준다.
+  
+  // access to each cluster with for loop
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
   {
     pcl::PointCloud<pcl::PointXYZI> eachCloud;
     float a = cluster_indices.size();
-    //아래 for문은 점하나하나에 접근
+    // access to each point
     for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
     {
-        //개별 클라우드를 받기위한 포인트 클라우드 선언
         pcl::PointXYZ pt = cloud->points[*pit];
         pcl::PointXYZI pt2;
         pt2.x = pt.x, pt2.y = pt.y, pt2.z = pt.z;
@@ -93,7 +87,6 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& inputcloud)
         eachCloud.push_back(pt2);
         TotalCloud.push_back(pt2);
      }
-        //minPoint와 maxPoint 받아오기
         pcl::PointXYZI minPoint, maxPoint;
         pcl::getMinMax3D(eachCloud, minPoint, maxPoint);
         Box box;
@@ -104,7 +97,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& inputcloud)
         box.y_max = maxPoint.y;
         box.z_max = maxPoint.z;
 
-        //각 축에 대한 x, y, z 축 사이즈 고려하기위한 size 변수를 선언한다.
+        // Define box size
         float xsize = std::abs(box.x_max - box.x_min);
         float ysize = std::abs(box.y_max - box.y_min);
         float zsize = std::abs(box.z_max - box.z_min);
