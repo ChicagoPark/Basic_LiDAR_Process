@@ -18,7 +18,7 @@ void livox_translation_cb (const sensor_msgs::PointCloud2ConstPtr& cloud_msg1)
     Eigen::Translation3f init_translation(-0.0468, -0.266, 0.0);
     Eigen::AngleAxisf init_rotation_x( 0.0, Eigen::Vector3f::UnitX());
     Eigen::AngleAxisf init_rotation_y(0.0, Eigen::Vector3f::UnitY());
-    Eigen::AngleAxisf init_rotation_z(-0.35, Eigen::Vector3f::UnitZ()); // 라디안으로 계산해준다.
+    Eigen::AngleAxisf init_rotation_z(-0.35, Eigen::Vector3f::UnitZ()); // unit is radian
 
     Eigen::Matrix4f m = (init_translation * init_rotation_x*init_rotation_y* init_rotation_z).matrix();
 
