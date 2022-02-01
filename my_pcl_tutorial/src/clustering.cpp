@@ -2,21 +2,18 @@
 
 typedef pcl::PointXYZ PointT;
 
-//clusters 를 다른 색으로 담고있는 clusters를 퍼블리싱하기 위한 pub1
 ros::Publisher pub;
 
 void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& inputcloud)
 {
-  //ROS message 변환
-  //왜 PointXYZ로 선언을 해줄까? => 이후 clusters 에 대해 다른 색으로 표현해주기 위해서,clustering 이후 intensity value를 정해주기 위해서이다.￣
+  //Convert ROSMsg(Sensor msg) to PointXYZ
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
   pcl::fromROSMsg(*inputcloud, *cloud);
 
-  //Clustering 을 위한 KD-tree를 선언해준다.
+  //Declare a KD-tree for clustering.
   pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
   tree->setInputCloud(cloud);
 
-  //각각의 clusters를 받아줄 vector를 만들어준다.
   std::vector<pcl::PointIndices> cluster_indices;
   pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
   ec.setClusterTolerance (0.5); // 2cm
@@ -37,7 +34,7 @@ void cloud_cb(const sensor_msgs::PointCloud2ConstPtr& inputcloud)
         pcl::PointXYZ pt = cloud->points[*pit];
         pcl::PointXYZI pt2;
         pt2.x = pt.x, pt2.y = pt.y, pt2.z = pt.z;
-        pt2.intensity = (float)(j + 1);   //다른 clusters에 대해 다른 intensity를 넣어주기위해
+        pt2.intensity = (float)(j + 1);           // assign different intensity about different clusters
 
         TotalCloud.push_back(pt2);
     }
